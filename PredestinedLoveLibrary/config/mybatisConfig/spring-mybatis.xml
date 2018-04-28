@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>    
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="true"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.chen.PLoveLibrary.domain.SysUser" alias="SysUser" />
+		<typeAlias type="com.chen.PLoveLibrary.domain.Reader" alias="Reader"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.ReaderType" alias="ReaderType"/>
+		<typeAlias type="com.chen.PLoveLibrary.parameter.Parameter" alias="Parameter"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.SysRole" alias="SysRole"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.SysPermission" alias="SysPermission"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.SysUR" alias="SysUR"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.SysRP" alias="SysRP"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.BookClass" alias="BookClass"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.Book" alias="Book"/>
+		<typeAlias type="com.chen.PLoveLibrary.domain.Borrow" alias="Borrow"/>
+	</typeAliases>
+	
+</configuration>

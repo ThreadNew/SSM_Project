@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.PLoveLibrary.mybatis.ReaderTypeMapper">
+	<!-- 插入数据 -->
+	<insert id="insertReaderType" parameterType="ReaderType">
+		insert into
+		tb_readertype
+		values(#{rdType},#{rdTypeName},#{canLendQty},#{canLendDay},#{canContinueTimes},#{punishRate},#{dateValid})
+	</insert>
+	<!-- 查询rdType信息 -->
+	<select id="findReaderTypeByID" parameterType="int" resultType="ReaderType">
+		select * from tb_readertype where rdType=#{id}
+	</select>
+	<!-- 删除 -->
+	<delete id="deleteReaderTypeByID" parameterType="int">
+		delete from
+		tb_ReaderType where rdType=#{id}
+	</delete>
+	<!-- 更新 -->
+	<update id="updateReaderType" parameterType="ReaderType">
+		update tb_readertype
+		set
+		rdTypeName=#{rdTypeName},CanLendQty=#{canLendQty},CanLendDay=#{canLendDay},CanContinueTimes=#{canContinueTimes},PunishRate=#{punishRate},DateValid=#{dateValid}
+		where rdType=#{rdType}
+	</update>
+	<!-- 分页查找 -->
+	<select id="searchReaderType" parameterType="Map" resultType="ReaderType">
+		select * from tb_readerType
+
+		<if test="rdType!=null and rdType!=-1">
+			where rdType=#{rdType}
+		</if>
+
+		<if test="start!=null and end!=null">
+			limit #{start},#{end}
+		</if>
+	</select>
+	<!-- 总记录 -->
+	<select id="findCountsReaderType" resultType="int" parameterType="int">
+		select count(*) from tb_readerType
+		<if test="_parameter!=-1">
+		where rdType=#{id}
+		</if>
+	</select>
+</mapper>
+

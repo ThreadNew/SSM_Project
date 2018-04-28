@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.PLoveLibrary.mybatis.ReaderMapper">
+	<!-- 办证插入信息 -->
+	<insert id="insertReader" parameterType="Reader">
+		insert into
+		tb_reader(rdID,rdName,rdSex,rdType,rdDept,rdPhone,rdEmail,rdDateReg,rdPhoto,rdStatus,rdBorrowQty,rdPwd,rdAdminRoles)
+		values(#{rdID},#{rdName},#{rdSex},#{rdType},#{rdDept},#{rdPhone},#{rdEmail},#{rdDateReg},#{rdPhoto},#{rdStatus},0,#{rdPwd},#{rdAdminRoles})
+	</insert>
+	<!-- 根据用户名查找读者信息 -->
+	<select id="findReaderByrdID" parameterType="String" resultType="Reader">
+		select * from tb_reader where rdID=#{rdID}
+
+	</select>
+	
+	<!-- 删除读者 -->
+	<delete id="deleteReaderByrdID" parameterType="String">
+		delete from
+		tb_reader where rdID=#{rdID}
+	</delete>
+	<!--更新数据 -->
+	<update id="updateReaderByrdID" parameterType="Reader">
+		update tb_reader
+		set
+		rdName=#{rdName},rdSex=#{rdSex},rdType=#{rdType},rdDept=#{rdDept},rdPhone=#{rdPhone},rdEmail=#{rdEmail},rdDateReg=#{rdDateReg},rdPhoto=#{rdPhoto},rdStatus=#{rdStatus},rdPwd=#{rdPwd},rdAdminRoles=#{rdAdminRoles}
+		where rdID=#{rdID}
+	</update>
+
+	<!-- 满足一些情况的查询 -->
+	<select id="getCounts" parameterType="Parameter" resultType="int">
+		select count(*) from tb_reader
+		<if test="rdID!=null and rdID!=''">
+		where rdID=#{rdID}
+		</if>
+	</select>
+	<select id="getReaderInfo" parameterType="Parameter" resultType="Reader">
+		select * from tb_reader
+		<if test="rdID!=null and rdID!=''">
+		where rdID=#{rdID}
+		</if>
+		limit #{start},#{end}
+	</select>
+	<!-- 根据用户名查证件的状态 -->
+	<select id="findStatusByrdID" parameterType="String" resultType="String">
+		select rdStatus from tb_reader where rdID=#{name}
+	</select>
+	<!-- 改变证件的状态 -->
+	<update id="updateStatusByrdID" parameterType="Reader">
+		update tb_reader set rdStatus=#{rdStatus}
+		where rdID=#{rdID}
+	</update>
+</mapper>

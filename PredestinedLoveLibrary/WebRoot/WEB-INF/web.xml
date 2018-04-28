@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+ http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	id="WebApp_ID" version="3.0">
+	<display-name>PredestinedLoveLibrary</display-name>
+	
+
+	<!-- 
+	springMVC 静态资源显示问题。使用服务器来处理静态资源。
+	原因：客户端发送request，springMVC有DispatcherServlet转发，而DiapatchServlet的url-pattern是“/”，代表着所有的请求都要由DispatcherServlet
+	转发，因此处理静态资源，第一种就采用服务器端处理，请求先过DefaultServlet,静态资源过滤则剩下的请求就交给dispatcherServlet处理。
+	 -->
+	<servlet>
+		<servlet-name>default</servlet-name>
+		<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>0</param-value>
+		</init-param>
+		<init-param>
+			<param-name>listings</param-name>
+			<param-value>false</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<!-- js静态资源 -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.js</url-pattern>
+
+	</servlet-mapping>
+	<!-- css静态资源 -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.css</url-pattern>
+
+	</servlet-mapping>
+	<!-- gif 静态资源 -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.gif</url-pattern>
+
+	</servlet-mapping>
+	<!-- jpg静态资源 -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.jpg</url-pattern>
+
+	</servlet-mapping>
+	<!-- ico -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.ico</url-pattern>
+
+	</servlet-mapping>
+	<!-- png -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.png</url-pattern>
+
+	</servlet-mapping>
+	<!-- htm -->
+	<servlet-mapping>
+
+		<servlet-name>default</servlet-name>
+
+		<url-pattern>*.htm</url-pattern>
+
+	</servlet-mapping>
+
+	<!-- 配置上下文的注入，和上下文监听器 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+		classpath:springConfig/applicationContext.xml
+		classpath:shiroConfig/spring-shiro.xml
+		
+		</param-value>
+	</context-param>
+	<!-- 监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<!-- 配置springMVC的DispathServlet -->
+	<servlet>
+		<servlet-name>spring</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<!-- 配置过滤器:CharacterEncodingFilter -->
+	<filter>
+		<filter-name>Encoding</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>Encoding</filter-name>
+		<url-pattern>*</url-pattern>
+	</filter-mapping>
+	<!-- 配置shiro -->
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+</web-app>

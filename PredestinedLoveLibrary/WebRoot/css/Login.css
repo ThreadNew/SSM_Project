@@ -1,0 +1,30 @@
+body {
+	background-position: center 0;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	-webkit-background-size: cover;
+	background-image: url(../img/1.jpg);
+}
+
+form {
+	margin-top: 15%;
+	margin-left: 35%;
+}
+
+.bg {
+	font-family: "楷体";
+	font-size: 13;
+	color: #C12E2A;
+	font-size: 15;
+}
+
+.tilte {
+	font-family: "楷体";
+	color:
+}
+
+.bg1 {
+	background: rgba(255, 255, 255, 0.5);
+	height: 350px;
+}

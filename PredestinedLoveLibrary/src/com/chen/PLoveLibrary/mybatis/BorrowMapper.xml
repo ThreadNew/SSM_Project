@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.PLoveLibrary.mybatis.BorrowMapper">
+	<!-- 借书 -->
+	<insert id="insertBorrow" parameterType="Borrow">
+		insert into
+		tb_Borrow(rdID,bkID,idContinueTimes,idDateOut,idDateRetPlan,idDateRetAct,idOverDay,idOverMoney,
+		idPunishMoney,isHasReturn,operatorLend,operatorRet)
+		values(#{rdID},#{bkID},#{idContinueTimes},#{idDateOut},#{idDateRetPlan},#{idDateRetAct},#{idOverDay},#{idOverMoney},
+		#{idPunishMoney},#{isHasReturn},#{operatorLend},#{operatorRet})
+	</insert>
+	<!-- 借书改变图书的状态 -->
+	<update id="updateBookByID" parameterType="Parameter">
+		update tb_book 
+			set bkStatus=#{bkStatus}
+			where bkID=#{bkID}
+	</update>
+	<!--  更新读者的借书的次数 -->
+	<update id="updateReader" parameterType="Parameter">
+		update tb_reader
+		set
+		rdBorrowQty=#{rdBorrowQty}
+		where rdID=#{rdID}
+	</update>
+	<!-- 更新读者的表 -->
+	<update id="updateReaderByID" parameterType="Parameter">
+		update tb_reader
+		set
+		<if test="rdStatus!=null and rdStatus!=''">
+		rdStatus=#{rdStatus}
+		</if>
+		<if test="rdBorrowQty!=0">
+		,rdBorrowQty=#{rdBorrowQty}
+		</if>
+		where rdID=#{rdID}
+	</update>
+	<!-- 得到图书的一些信息 -->
+	<select id="getReaderInfoByID" parameterType="Parameter" resultType="Parameter">
+		select rdDateReg,rdStatus,rdBorrowQty,bkStatus from tb_book  ,tb_reader  where bkID=#{bkID}and rdID=#{rdID}
+	</select>
+	<!-- 得到readerType的信息 -->
+	<select id="findReaderTypeByrdID" parameterType="String" resultType="ReaderType">
+		select * from tb_readerType where rdType=(select rdType from tb_Reader where rdID=#{rdID})
+	</select>
+	<!-- 得到所有的借阅信息 -->
+	<select id="selectBorrowInfo" parameterType="Parameter" resultType="Borrow">
+		select * from tb_Borrow 
+		<if test="isHasReturn!=null and isHasReturn!=''">
+		where isHasReturn=#{isHasReturn}
+		</if>
+		<if test="start!=-1 and end !=-1">
+		limit #{start},#{end}
+		</if>
+	</select>
+	<!-- 总记录的个数 -->
+	<select id="getCounts" parameterType="Parameter" resultType="int">
+		select count(*) from tb_Borrow
+		<if test="isHasReturn!=null and isHasReturn!=''">
+		where isHasReturn=#{isHasReturn}
+		</if>
+	</select>
+	<!-- 根据序号删除 -->
+	<delete id="deleteBorrowByID" parameterType="int" >
+		delete from tb_borrow where borrowID=#{id}
+	</delete>
+	<!-- 分开写sql语句使条例清晰 -->
+	<!-- 续借操作 -->
+	<!-- 得到借阅表 -->
+	<select id="getBorrow" parameterType="Borrow" resultType="Borrow">
+		select * from tb_Borrow where rdID=#{rdID}and bkID=#{bkID}
+	</select>
+	<!-- 更改借书表中的借书日期和续借次数 -->
+	<update id="updateTB" parameterType="Borrow">
+		update tb_Borrow set
+			idContinueTimes=#{idContinueTimes},
+			idDateOut=#{idDateOut},
+			idDateRetPlan=#{idDateRetPlan},
+			operatorLend=#{operatorLend}
+		where 
+		rdID=#{rdID}and bkID=#{bkID}
+	</update>
+	<!-- 归还后更改表中的内容 -->
+	<update id="updateReturn" parameterType="Borrow">
+		update tb_Borrow
+		set
+			
+			idDateRetAct=#{idDateRetAct},
+	 		idOverDay=#{idOverDay},
+	 		idOverMoney=#{idOverMoney},
+		 	idPunishMoney=#{idPunishMoney},
+			isHasReturn=#{isHasReturn},
+			operatorRet=#{operatorRet}
+		where 
+		rdID=#{rdID}and bkID=#{bkID}
+	</update>
+	
+	
+</mapper>

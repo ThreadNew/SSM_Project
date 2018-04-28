@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.PLoveLibrary.mybatis.BookMapper">
+	<!-- 保存图书 -->
+	<insert id="insertBook" parameterType="Book">
+		insert into tb_book
+		values(#{bkID},#{bkCode},#{bkName},#{bkAuthor},#{bkPress},#{bkDatePress},#{bkISBN},
+		#{bkCatalog},#{bkLanguage},#{bkPages},#{bkPrice},#{bkDateIn},#{bkBrief},#{bkCover},#{bkStatus})
+	</insert>
+	<!-- 分页查询，记录显示 -->
+	<select id="selectBook" parameterType="Parameter" resultType="Book">
+		select * from tb_book
+		<if test="bkID!=null and bkID!=''">
+			where bkID=#{bkID}
+		</if>
+		<if test="bkName!=null and bkName!=''">
+			where bkName like '%${bkName}%'
+		</if>
+		<if test="bkStatus!=null and bkStatus!=''">
+			where bkStatus=#{bkStatus}
+		</if>
+		<if test="start!=-1 and end!=-1">
+			limit #{start},#{end}
+		</if>
+	</select>
+	<!-- 删除记录 -->
+	<delete id="deleteBookByID" parameterType="String">
+		delete from tb_book
+		where bkID=#{bkID}
+	</delete>
+	<!-- 更新操作 -->
+	<update id="updateBookByID" parameterType="Book">
+		update tb_book set
+		bkCode=#{bkCode},bkName=#{bkName},bkAuthor=#{bkAuthor},bkPress=#{bkPress},bkDatePress=#{bkDatePress},bkISBN=#{bkISBN},
+		bkCatalog=#{bkCatalog},bkLanguage=#{bkLanguage},bkPages=#{bkPages},bkPrice=#{bkPrice},bkDateIn=#{bkDateIn},bkBrief=#{bkBrief},bkCover=#{bkCover},bkStatus=#{bkStatus}
+		where bkID=#{bkID}
+	</update>
+	<!-- 总记录的个数或者查询的记录 -->
+	<select id="getCounts" parameterType="Parameter" resultType="int">
+		select count(*) from tb_book 
+		<if test="bkID!=null and bkID!=''">
+			where bkID=#{bkID}
+		</if>
+		<if test="bkName!=null and bkName!=''">
+			where bkName like '%${bkName}%'
+		</if>
+	</select>
+	
+	
+</mapper>
