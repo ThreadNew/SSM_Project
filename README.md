@@ -12,4 +12,7 @@
 ### 提示
   文档在sql文件夹中
 ### 温馨提示
-> 介于这个demo仓库有很多fork和starred，为了保证大家可以学到更多的内容，后面会重新写这个项目，技术栈 vue 和springboot2 或者vue和golang
+> 介于这个demo仓库有很多fork和starred，为了保证大家可以学到更多的内容，后面可能会重新写该项目。
+- 技术栈
+
+Vue和SpringBoot2 /  Vue和Golang
